@@ -3,6 +3,10 @@ package SMS::Send::Facilitamovel;
 use 5.018001;
 use strict;
 use warnings;
+use LWP::UserAgent;
+use URI::Escape;
+
+use parent qw(SMS::Send::Driver);
 
 require Exporter;
 
@@ -36,26 +40,40 @@ __END__
 
 =head1 NAME
 
-SMS::Send::Facilitamovel - Perl extension for blah blah blah
+SMS::Send::Facilitamovel - An SMS::Send driver for the www.facilitamovel.com.br service
+
+=head1 VERSION
+ 
+Version 0.01
 
 =head1 SYNOPSIS
-
-  use SMS::Send::Facilitamovel;
-  blah blah blah
+ 
+    # create the sender object
+    my $sender = SMS::Send::->new('Facilitamovel',
+        _username => 'username',
+        _password  => 'password',
+    );
+    # send a message
+    my $sent = $sender->send_sms(
+        text    => 'You message may use up to 160 chars',
+        to'     => '+49 555 4444', # always use the intl. calling prefix
+    );
+     
+    if ( $sent ) {
+        print "Sent message\n";
+    } else {
+        print "Failed to send test message\n";
+    }
 
 =head1 DESCRIPTION
 
-Stub documentation for SMS::Send::Facilitamovel, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
+L<SMS::Send::Facilitamovel> is an brazilian L<SMS::Send> driver for
+the www.facilitamovel.com.br service. It is a paid service which offers very competitive
+prices.
 
 =head2 EXPORT
 
 None by default.
-
-
 
 =head1 SEE ALSO
 
@@ -70,11 +88,11 @@ If you have a web site set up for your module, mention it here.
 
 =head1 AUTHOR
 
-A. U. Thor, E<lt>a.u.thor@a.galaxy.far.far.awayE<gt>
+Mario Celso Teixeira, marioct37@gmail.com
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2016 by A. U. Thor
+Copyright (C) 2016 by Mario Celso Teixeira
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.1 or,
