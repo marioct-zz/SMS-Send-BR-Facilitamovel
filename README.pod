@@ -1,0 +1,53 @@
+
+=head1 NAME
+SMS::Send::Facilitamovel - SMS::Send driver for the Facilitamovel service
+
+=head1 VERSION
+0.01
+
+=head1 SYNOPSIS
+
+`use SMS::Send;`
+`my $sender = SMS::Send->new('Facilitamovel',`
+`    _login    => 'foo',`
+`    _password => 'bar',`
+`);`
+ 
+`my $sent = $sender->send_sms(`
+`    'to'             => '+43123123456789',`
+`    'text'           => 'This is a test message',`
+`);`
+ 
+`# Did the send succeed.`
+`if ( $sent ) {`
+`    print "Message sent ok\n";`
+`} else {`
+`    print 'Failed to send message: ', $@->{error_content}, "\n";`
+`}`
+
+=head1 INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+=head1 DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  
+
+=head1 COPYRIGHT AND LICENCE
+
+Put the correct copyright and licence information here.
+
+Copyright (C) 2016 by Mario Celso Teixeira
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.18.1 or,
+at your option, any later version of Perl 5 you may have available.
+
+
