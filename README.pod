@@ -10,7 +10,7 @@ SMS::Send::BR::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> d
 =head1 SYNOPSIS
 
    use SMS::Send;
-   my $sender = SMS::Send->new('Facilitamovel',
+   my $sender = SMS::Send->new('BR::Facilitamovel',
        _login    => 'foo',
        _password => 'bar',
    );
@@ -40,9 +40,14 @@ To install this module type the following:
 
 This module requires these other modules and libraries:
 
+Carp
+HTTP::Tiny
+URI::Escape
+SMS::Send::Driver
+
 =head1 COPYRIGHT AND LICENCE
 
-Copyright (C) 2016 by Mario Celso Teixeira
+Copyright (C) CPqD 2016 by Mario Celso Teixeira
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.1 or,
