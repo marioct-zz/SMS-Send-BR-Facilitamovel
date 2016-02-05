@@ -1,18 +1,33 @@
-# Before 'make install' is performed this script should be runnable with
-# 'make test'. After 'make install' it should work as 'perl SMS-Send-BR-Facilitamovel.t'
-
-#########################
-
-# change 'tests => 1' to 'tests => last_test_to_print';
-
 use strict;
 use warnings;
+use Test::More;
+use Test::Exception;
 
-use Test::More tests => 1;
-BEGIN { use_ok('SMS::Send::BR::Facilitamovel') };
+BEGIN {
+    use_ok( 'SMS::Send' );
+    use_ok( 'SMS::Send::BR::Facilitamovel');
+}
 
-#########################
+throws_ok sub { my $sender = SMS::Send->new('BR::Facilitamovel') },
+    qr/_login missing/,
+    'sender construction without _login and _password throws exception';
 
-# Insert your test code below, the Test::More module is use()ed here so read
-# its man page ( perldoc Test::More ) for help writing this test script.
+throws_ok sub { my $sender = SMS::Send->new('BR::Facilitamovel',
+    _login => 'foo' ) },
+    qr/_password missing/,
+    'sender construction without _password throws exception';
+
+throws_ok sub { my $sender = SMS::Send->new('BR::Facilitamovel',
+    _password => 'foo' ) },
+    qr/_login missing/,
+    'sender construction without _login throws exception';
+
+ok(
+    my $sender = SMS::Send->new('BR::Facilitamovel',
+        _login    => 'foo',
+        _password => 'bar',
+    ), 'sender construction ok'
+);
+
+done_testing;
 
