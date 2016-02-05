@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-SMS::Send::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> driver for the Facilitamovel service
+SMS::Send::BR::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> driver for the Facilitamovel service
 
 =head1 VERSION
 
@@ -17,7 +17,7 @@ SMS::Send::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> drive
    
    my $sent = $sender->send_sms(
        'text'           => 'This is a test message',
-       'to'             => '+55(19)99191-3030',
+       'to'             => '19991913030',
    );
    
    # Did the send succeed.
