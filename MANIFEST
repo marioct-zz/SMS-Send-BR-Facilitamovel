@@ -2,5 +2,5 @@ Changes
 Makefile.PL
 MANIFEST
 README
-t/SMS-Send-Facilitamovel.t
-lib/SMS/Send/Facilitamovel.pm
+t/SMS-Send-BR-Facilitamovel.t
+lib/SMS/Send/BR/Facilitamovel.pm
