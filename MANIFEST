@@ -1,6 +1,8 @@
 Changes
+dist.ini
 Makefile.PL
 MANIFEST
-README
-t/SMS-Send-BR-Facilitamovel.t
+META.yml
+README.pod
+t/00-compile.t
 lib/SMS/Send/BR/Facilitamovel.pm
