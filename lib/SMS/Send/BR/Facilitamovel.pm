@@ -3,7 +3,7 @@ use warnings;
 
 package SMS::Send::BR::Facilitamovel;
 
-$SMS::Send::BR::Facilitamovel::VERSION = '0.02';
+$SMS::Send::BR::Facilitamovel::VERSION = '0.03';
 
 # ABSTRACT: SMS::Send driver for the Facilita Movel SMS service 
 

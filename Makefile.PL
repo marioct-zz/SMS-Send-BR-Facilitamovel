@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
     'NAME'             => 'SMS::Send::BR::Facilitamovel',
-    'VERSION'          => '0.02',
+    'VERSION'          => '0.03',
     'ABSTRACT'         => 'SMS::Send driver for the Facilita Movel SMS service',
     'AUTHOR'           => 'Mario Celso Teixeira <marioct37@gmail.com>',
     'BUILD_REQUIRES' => {
@@ -19,6 +19,17 @@ my %WriteMakefileArgs = (
     },
     'PREREQ_PM'         => {
         'SMS::Send::Driver' => '0',
+    },
+    'META_MERGE' => {
+        'meta-spec' => { 'version' => '2' },
+        'resources' => {
+             'repository' => {
+                 'type'   => 'git',
+                 'url'    => 'https://github.com/marioct/SMS-Send-BR-Facilitamovel.git',
+                 'web'    => 'https://github.com/marioct/SMS-Send-BR-Facilitamovel',
+                 'issues' => 'https://github.com/marioct/SMS-Send-BR-Facilitamovel/issues',
+             },
+         },
     },
     'test' => {
         'TESTS' => 't/*.t'
