@@ -3,10 +3,10 @@ use warnings;
 
 package SMS::Send::BR::Facilitamovel;
 
-$SMS::Send::BR::Facilitamovel::VERSION = '0.001';
+$SMS::Send::BR::Facilitamovel::VERSION = '0.02';
 
-# ABSTRACT: SMS::Send driver for the Facilita Movel SMS service
- 
+# ABSTRACT: SMS::Send driver for the Facilita Movel SMS service 
+
 use Carp;
 use HTTP::Tiny;
 use URI::Escape qw( uri_escape );
@@ -59,12 +59,12 @@ sub send_sms {
     die $response->{content}
         unless $response->{success};
  
-    my $response_message = $response->{content};
+    my @response_message = split /[;]+/, $response->{content};
  
     return 1
-        if $response_message->{statusCode} =~ /^6\d\d/;
+        if $response_message[0] != "6";
  
-    $@ = $response_message;
+    $@ = @response_message;
  
     return 0;
 }

@@ -3,10 +3,6 @@
 
 SMS::Send::BR::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> driver for the Facilitamovel service
 
-=head1 VERSION
-
-0.01
-
 =head1 SYNOPSIS
 
    use SMS::Send;
@@ -40,10 +36,10 @@ To install this module type the following:
 
 This module requires these other modules and libraries:
 
-Carp
-HTTP::Tiny
-URI::Escape
-SMS::Send::Driver
+  Carp
+  HTTP::Tiny
+  URI::Escape
+  SMS::Send::Driver
 
 =head1 COPYRIGHT AND LICENCE
 
@@ -52,5 +48,4 @@ Copyright (C) CPqD 2016 by Mario Celso Teixeira
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.1 or,
 at your option, any later version of Perl 5 you may have available.
-
 

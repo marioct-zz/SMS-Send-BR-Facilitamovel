@@ -1,12 +1,45 @@
 use 5.018001;
 use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
-WriteMakefile(
-    NAME              => 'SMS::Send::BR::Facilitamovel',
-    VERSION_FROM      => 'lib/SMS/Send/BR/Facilitamovel.pm', # finds $VERSION
-    PREREQ_PM         => {}, # e.g., Module::Name => 1.1
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/SMS/Send/Facilitamovel.pm', # retrieve abstract from module
-       AUTHOR         => 'Mario Celso Teixeira <marioct37@gmail.com>') : ()),
+
+my %WriteMakefileArgs = (
+    'NAME'             => 'SMS::Send::BR::Facilitamovel',
+    'VERSION'          => '0.02',
+    'ABSTRACT'         => 'SMS::Send driver for the Facilita Movel SMS service',
+    'AUTHOR'           => 'Mario Celso Teixeira <marioct37@gmail.com>',
+    'BUILD_REQUIRES' => {
+        'English' => '0',
+        'Carp' => '0',
+        'HTTP::Tiny' => '0',
+        'URI::Escape' => '0',
+        'SMS::Send' => '0',
+        'Test::More' => '0'
+    },
+    'CONFIGURE_REQUIRES' => {
+        'ExtUtils::MakeMaker' => '6.31',
+    },
+    'PREREQ_PM'         => {
+        'SMS::Send::Driver' => '0',
+    },
+    'test' => {
+        'TESTS' => 't/*.t'
+    }
 );
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
+
