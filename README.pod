@@ -5,32 +5,32 @@ SMS::Send::BR::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> d
 
 =head1 SYNOPSIS
 
-   use SMS::Send;
-   my $sender = SMS::Send->new('BR::Facilitamovel',
-       _login    => 'foo',
-       _password => 'bar',
-   );
-   
-   my $sent = $sender->send_sms(
-       'text'           => 'This is a test message',
-       'to'             => '19991913030',
-   );
-   
-   # Did the send succeed.
-   if ( $sent ) {
-       print "Message sent ok\n";
-   } else {
-       print 'Failed to send message: ', $@->{error_content}, "\n";
-   }
+  use SMS::Send;
+  my $sender = SMS::Send->new('BR::Facilitamovel',
+      _login    => 'foo',
+      _password => 'bar',
+  );
+
+  my $sent = $sender->send_sms(
+      'text'    => 'This is a test message',
+      'to'      => '19991913030',
+  );
+
+  # Did the send succeed.
+  if ( $sent ) {
+      print "Message sent ok\n";
+  } else {
+      print 'Failed to send message: ', $@->{error_content}, "\n";
+  }
 
 =head1 INSTALLATION
 
 To install this module type the following:
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 =head1 DEPENDENCIES
 
