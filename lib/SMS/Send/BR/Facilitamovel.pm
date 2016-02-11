@@ -5,43 +5,43 @@ package SMS::Send::BR::Facilitamovel;
 
 $SMS::Send::BR::Facilitamovel::VERSION = '0.03';
 
-# ABSTRACT: SMS::Send driver for the Facilita Movel SMS service 
+# ABSTRACT: SMS::Send driver for the Facilita Movel SMS service
 
 use Carp;
 use HTTP::Tiny;
 use URI::Escape qw( uri_escape );
- 
+
 use base 'SMS::Send::Driver';
- 
+
 sub new {
     my $class = shift;
     my $self = { @_ };
- 
+
     $self->{$_}
         or croak "$_ missing"
             for qw( _login _password );
- 
+
     return bless $self, $class;
 }
- 
+
 sub send_sms {
     my ($self, %args) = @_;
- 
+
     my $http = HTTP::Tiny->new(
         default_headers => {
- 
+
             # to ensure the response is JSON and not the XML default
-            'accept' => 'text/html; charset=ISO-8859-1',
+            'accept'       => 'text/html; charset=ISO-8859-1',
             'content-type' => 'text/html; charset=ISO-8859-1',
         },
-        timeout => 3,
+        timeout    => 3,
         verify_ssl => 1,
     );
- 
+
     # remove leading +
     ( my $recipient = $args{to} ) =~ s/^\+//;
- 
-    my $message = $args{text}; 
+
+    my $message = $args{text};
 
     my $response = $http->post(
         'https://www.facilitamovel.com.br/api/simpleSend.ft'
@@ -54,21 +54,21 @@ sub send_sms {
         . '&msg='
         . uri_escape( $message )
     );
- 
+
     # for example a timeout error
     die $response->{content}
         unless $response->{success};
- 
+
     my @response_message = split /[;]+/, $response->{content};
- 
+
     return 1
         if $response_message[0] != "6";
- 
+
     $@ = @response_message;
- 
+
     return 0;
 }
- 
+
 1;
 
 __END__
@@ -94,8 +94,8 @@ version 0.03
     );
 
     my $sent = $sender->send_sms(
-        'text'           => 'This is a test message',
-        'to'             => '19991913030',
+        'text'    => 'This is a test message',
+        'to'      => '19991913030',
     );
 
     # Did the send succeed.
@@ -113,20 +113,20 @@ This module currently uses the L<HTTP API|https://www.facilitamovel.com.br>.
 
 =head2 send_sms
 
-Is called by L<SMS::Send/send_sms> and passes all arguments starting with an
+It is called by L<SMS::Send/send_sms> and passes all arguments starting with an
 underscore to the request having the first underscore removed as shown in the
 SYNOPSIS above.
 
-Returns true if the message was successfully sent.
+It returns true if the message was successfully sent.
 
-Returns false if an error occurred and $@ is set to a hashref of the following info:
+It returns false if an error occurred and $@ is set to a hashref of the following info:
 
     {
         statusCode      => "...",
         MessageId       => "...",
     }
 
-Throws an exception if a fatal error like a http timeout in the underlying
+It throws an exception if a fatal error like a http timeout in the underlying
 connection occurred.
 
 =head1 AUTHOR
