@@ -1,7 +1,7 @@
+package SMS::Send::BR::Facilitamovel;
+
 use strict;
 use warnings;
-
-package SMS::Send::BR::Facilitamovel;
 
 $SMS::Send::BR::Facilitamovel::VERSION = '0.03';
 
@@ -14,8 +14,8 @@ use URI::Escape qw( uri_escape );
 use base 'SMS::Send::Driver';
 
 sub new {
-    my $class = shift;
-    my $self = { @_ };
+    my ($class, %args) = @_;
+    my $self = \%args;
 
     $self->{$_}
         or croak "$_ missing"
