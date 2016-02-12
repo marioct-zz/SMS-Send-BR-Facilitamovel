@@ -21,52 +21,50 @@ sub new {
         or croak "$_ missing"
             for qw( _login _password );
 
+    $self->{_http} = HTTP::Tiny->new();
+
+    $self->{_verbose} = 0 unless exists $self->{_verbose};
+
     return bless $self, $class;
 }
 
 sub send_sms {
     my ($self, %args) = @_;
 
-    my $http = HTTP::Tiny->new(
-        default_headers => {
-
-            # to ensure the response is JSON and not the XML default
-            'accept'       => 'text/html; charset=ISO-8859-1',
-            'content-type' => 'text/html; charset=ISO-8859-1',
-        },
-        timeout    => 3,
-        verify_ssl => 1,
-    );
-
     # remove leading +
     ( my $recipient = $args{to} ) =~ s/^\+//;
 
     my $message = $args{text};
 
-    my $response = $http->post(
-        'https://www.facilitamovel.com.br/api/simpleSend.ft'
-        . '?user='
-        . uri_escape( $self->{_login} )
-        . '&password='
-        . uri_escape( $self->{_password} )
-        . '&destinatario='
-        . uri_escape( $recipient )
-        . '&msg='
-        . uri_escape( $message )
+    my $response = $self->{_http}->post_form(
+        'https://www.facilitamovel.com.br/api/simpleSend.ft',
+        {
+            user         => $self->{_login},
+            password     => $self->{_password},
+            destinatario => $recipient,
+            msg          => $message,
+        },
     );
 
-    # for example a timeout error
-    die $response->{content}
+    # Fatal error
+    croak $response->{content}
         unless $response->{success};
 
-    my @response_message = split /[;]+/, $response->{content};
+    # If the POST succeeds we get the status of the operation in the
+    # response content as a numeric ID, a message, and optional
+    # information. All fields are separated by semicolons.
+    if (my ($sid, $sinfo) = split /;/, $response->{content}, 2) {
+        if ($sid < 5) {
+            # All sids less than 5 signal errors
+            warn "send_sms failed: $sid;$sinfo" if $args{_verbose};
+            return 0;
+        } else {
+            warn "send_sms succeeded: $sid;$sinfo" if $args{_verbose};
+            return 1;
+        }
+    }
 
-    return 1
-        if $response_message[0] != "6";
-
-    $@ = @response_message;
-
-    return 0;
+    croak "Can't parse response from Facilitamovel API";
 }
 
 1;
@@ -102,7 +100,7 @@ version 0.03
     if ( $sent ) {
         print "Message sent ok\n";
     } else {
-        print 'Failed to send message: ', $@->{error_content}, "\n";
+        print 'Failed to send message\n";
     }
 
 =head1 DESCRIPTION
@@ -117,14 +115,7 @@ It is called by L<SMS::Send/send_sms> and passes all arguments starting with an
 underscore to the request having the first underscore removed as shown in the
 SYNOPSIS above.
 
-It returns true if the message was successfully sent.
-
-It returns false if an error occurred and $@ is set to a hashref of the following info:
-
-    {
-        statusCode      => "...",
-        MessageId       => "...",
-    }
+It returns a boolean value telling if the message was successfully sent or not.
 
 It throws an exception if a fatal error like a http timeout in the underlying
 connection occurred.
