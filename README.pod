@@ -20,7 +20,7 @@ SMS::Send::BR::Facilitamovel - L<SMS::Send|https://metacpan.org/pod/SMS::Send> d
   if ( $sent ) {
       print "Message sent ok\n";
   } else {
-      print 'Failed to send message: ', $@->{error_content}, "\n";
+      print "Failed to send message\n";
   }
 
 =head1 INSTALLATION
